@@ -9,18 +9,14 @@
 
 // .then(data => console.log(data.id))
 // .catch(error => console.error(error));
+const form = document.getElementById('pokemonForm');
 
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('pokemonForm');
-  form.addEventListener('submit', (event) => {
+
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
-  });
-});
-
-fetchData();
-async function fetchData() {
   try {
-    const pokemonName = document.getElementById("pokemonName").value.toLowerCase();
+    const input = document.querySelector(`input`)
+    const pokemonName = input.value.toLowerCase();
 
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
     const data = await response.json();
@@ -32,26 +28,27 @@ async function fetchData() {
     const imgElement = document.getElementById("pokemonSprite");
     imgElement.src = pokemonSprite;
     imgElement.style.display = "block";
+    const pokemonAbilities =[];
+    for (let i =0; i < data.abilities; i++){
+      pokemonAbilities.push(data.abilities[i].abilities.pokemonName);
+    }
+   
+    const pokemonLi = document.createElement('li'); 
+  
+    pokemonLi.innerHTML = `
+    <h3>${data.name} </h3>
+    <p>${data.name} weighs ${data.weight} lbs.</p>
+    `
+  
+    const orderedList = document.querySelector(`ol`);
+  
+    orderedList.append(pokemonLi);
   } catch (error) {
     console.error(error);
   }
 
-  const pokemonAbilities =[];
-  for (let i =0; i < fetchData.abilities; i++){
-    pokemonAbilities.push(data.abilities[i].abilities.pokemonName);
-  }
- 
-  const pokemonLi = document.createElement('li'); 
-
-  pokemonLi.innerHTML = `
-  <h3>${fetchData.name} </h3>
-  <p>${fetchData.name}  </p>
-  <p>${fetchData.name} </p>`
-
-  const orderedList = document.querySelector(`ol`);
-
-  orderedList.append(pokemonLi);
-};
+  
+})
 
 
 
