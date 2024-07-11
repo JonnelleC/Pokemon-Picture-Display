@@ -10,15 +10,20 @@
 // .then(data => console.log(data.id))
 // .catch(error => console.error(error));
 
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('pokemonForm');
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+  });
+});
+
 fetchData();
 async function fetchData() {
   try {
-    const pokemonName = document
-      .getElementById("pokemonName")
-      .value.toLowerCase();
-    const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
-    );
+    const pokemonName = document.getElementById("pokemonName").value.toLowerCase();
+
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+    
 
     if (!response.ok) {
       throw new Error("Could not fet resource");
@@ -31,4 +36,8 @@ async function fetchData() {
   } catch (error) {
     console.error(error);
   }
-}
+};
+
+
+
+
